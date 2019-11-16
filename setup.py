@@ -11,7 +11,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=7.0', ]
+requirements = ['Click>=7.0', 'requests']
 
 setup_requirements = ['pytest-runner', ]
 
@@ -32,7 +32,7 @@ setup(
     description="Recommendation engine for NSW petrol purchases",
     entry_points={
         'console_scripts': [
-            'nsw_petrol_pricing=nsw_petrol_pricing.cli:main',
+            'fetch_dataset=nsw_petrol_pricing.fetch_dataset:main',
         ],
     },
     install_requires=requirements,

@@ -8,7 +8,7 @@ import pytest
 from click.testing import CliRunner
 
 from nsw_petrol_pricing import nsw_petrol_pricing
-from nsw_petrol_pricing import cli
+from nsw_petrol_pricing import fetch_dataset
 
 
 @pytest.fixture
@@ -30,9 +30,9 @@ def test_content(response):
 def test_command_line_interface():
     """Test the CLI."""
     runner = CliRunner()
-    result = runner.invoke(cli.main)
+    result = runner.invoke(fetch_dataset.main)
     assert result.exit_code == 0
     assert 'nsw_petrol_pricing.cli.main' in result.output
-    help_result = runner.invoke(cli.main, ['--help'])
+    help_result = runner.invoke(fetch_dataset.main, ['--help'])
     assert help_result.exit_code == 0
     assert '--help  Show this message and exit.' in help_result.output
