@@ -11,7 +11,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=7.0', 'requests']
+requirements = ['Click>=7.0', 'requests', 'pandas', 'matplotlib']
 
 setup_requirements = ['pytest-runner', ]
 
@@ -33,6 +33,7 @@ setup(
     entry_points={
         'console_scripts': [
             'fetch_dataset=nsw_petrol_pricing.fetch_dataset:main',
+            'plot_dataset=nsw_petrol_pricing.plot_dataset:main',
         ],
     },
     install_requires=requirements,
