@@ -14,19 +14,20 @@ DOWNLOADED_RESOURCE_DIRNAME = pathlib.Path("../data")
 
 
 @click.command()
-def main(args=None):
+@click.option("--include", "-i", multiple=True)
+def main(include):
     """Console script for nsw_petrol_pricing."""
     register_matplotlib_converters()
 
     for resource in DATASET_RESOURCES:
         click.echo("Processing {}".format(resource))
         df = pd.read_csv(DOWNLOADED_RESOURCE_DIRNAME / "{}.csv".format(resource))
-        print(df.head())
+        df = df[df.ServiceStationName.isin(include)]
+        df = df[df.FuelCode == "E10"]
         df["PriceUpdatedDate"] = pd.to_datetime(df["PriceUpdatedDate"], unit="s")
-
-        plt.plot(df["PriceUpdatedDate"], df["Price"])
-        # beautify the x-labels
-        plt.gcf().autofmt_xdate()
+        df.set_index("PriceUpdatedDate", inplace=True)
+        df.groupby("ServiceStationName")["Price"].plot(legend=True)
+        print(df.head())
         plt.show()
 
     return 0
