@@ -28,11 +28,16 @@ def main(include):
         )
         df = df[df.ServiceStationName.isin(include)]
         df = df[df.FuelCode == "E10"]
+        # Early 2018
+        # df = df[(1525167684 > df.PriceUpdatedDate) & (df.PriceUpdatedDate > 1509467684)]
+        df = df[(1570000000 > df.PriceUpdatedDate) & (df.PriceUpdatedDate > 1550000000)]
         df["PriceUpdatedDate"] = pd.to_datetime(df["PriceUpdatedDate"], unit="s")
+        df["PriceMA"] = df["Price"].rolling(window=5).mean()
         df.set_index("PriceUpdatedDate", inplace=True)
+        #df.groupby("ServiceStationName")["PriceMA"].plot(
         df.groupby("ServiceStationName")["Price"].plot(
             legend=True,
-            figsize=(160, 12))
+            figsize=(16, 12))
         print(df.head())
         plt.show()
 
